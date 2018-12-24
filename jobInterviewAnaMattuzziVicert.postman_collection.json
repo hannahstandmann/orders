@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "eec0cd49-6cd3-4de1-b447-0290ff941cac",
+		"name": "jobInterviewAnaMattuzziVicert",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/rest/token/generate-token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"ana.mattuzzi@me.com\",\n\t\"password\":\"password\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/rest/token/generate-token",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"token",
+						"generate-token"
+					]
+				},
+				"description": "Login as ana.mattuzzi@me.com"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/rest/customers/740e450b-a2c4-4725-bad9-6c21552ffd99/orders/740e450b-a2c4-4725-bad9-6c21552ffd70",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmEubWF0dHV6emlAbWUuY29tIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlzcyI6Imh0dHA6Ly93aGF0ZXZlci53ZWIucnVuYm94Lm5ldCIsImlhdCI6MTU0NTY4MDA2NSwiZXhwIjoxNTQ1Njk4MDY1fQ.UexJmeJhRx1u5BNI-TwNeB01RtjqYMijZatB9jUde_k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/rest/customers/740e450b-a2c4-4725-bad9-6c21552ffd99/orders/740e450b-a2c4-4725-bad9-6c21552ffd70",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"customers",
+						"740e450b-a2c4-4725-bad9-6c21552ffd99",
+						"orders",
+						"740e450b-a2c4-4725-bad9-6c21552ffd70"
+					]
+				},
+				"description": "retrieve presaved order"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/rest/orders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmEubWF0dHV6emlAbWUuY29tIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlzcyI6Imh0dHA6Ly93aGF0ZXZlci53ZWIucnVuYm94Lm5ldCIsImlhdCI6MTU0NTY3OTE4MSwiZXhwIjoxNTQ1Njk3MTgxfQ.udl5M9MO0D5iyoAe_W9y8iVzJmoRSLgRepSu3941mRU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"customerEmail\":\"ana.mattuzzi@gmail.com\",\n\t\"orderStatus\":\"new\",\n\t\"lineItems\":[{\n\t\t\"name\":\"O Bag\",\n\t\t\"refId\":\"740e450b-a2c4-4725-bad9-6c21552ffd81\",\n\t\t\"quantity\":\"2\",\n\t\t\"price\":\"13000\"\n\t\t},\n\t\t{\n\t\t\"name\":\"O Clock\",\n\t\t\"refId\":\"740e450b-a2c4-4725-bad9-6c21552ffd82\",\n\t\t\"quantity\":\"3\",\n\t\t\"price\":\"3000\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/rest/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"orders"
+					]
+				},
+				"description": "orders belonging to ana.mattuzzi@me.com"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/rest/customers/740e450b-a2c4-4725-bad9-6c21552ffd99/orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmEubWF0dHV6emlAbWUuY29tIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlzcyI6Imh0dHA6Ly93aGF0ZXZlci53ZWIucnVuYm94Lm5ldCIsImlhdCI6MTU0NTY3ODg0OSwiZXhwIjoxNTQ1Njk2ODQ5fQ.XF07EDv7Tc4P_JEqFrLJ0gkXFBxgKDW-zy2JfrYg2GY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"customerEmail\":\"ana.mattuzzi@me.com\",\n\t\"orderStatus\":\"new\",\n\t\"lineItems\":[{\n\t\t\"name\":\"O Bag\",\n\t\t\"refId\":\"740e450b-a2c4-4725-bad9-6c21552ffd81\",\n\t\t\"quantity\":\"2\",\n\t\t\"price\":\"13000\"\n\t\t},\n\t\t{\n\t\t\"name\":\"O Clock\",\n\t\t\"refId\":\"740e450b-a2c4-4725-bad9-6c21552ffd82\",\n\t\t\"quantity\":\"3\",\n\t\t\"price\":\"3000\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/rest/customers/740e450b-a2c4-4725-bad9-6c21552ffd99/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"customers",
+						"740e450b-a2c4-4725-bad9-6c21552ffd99",
+						"orders"
+					]
+				},
+				"description": "create order as user ana.mattuzzi@me.com"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/rest/token/generate-token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"ana.mattuzzi@gmail.com\",\n\t\"password\":\"password\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/rest/token/generate-token",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"token",
+						"generate-token"
+					]
+				},
+				"description": "login as ana.mattuzzi@gmail.com"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/rest/customers/740e450b-a2c4-4725-bad9-6c21552ffe00/orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmEubWF0dHV6emlAZ21haWwuY29tIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlzcyI6Imh0dHA6Ly93aGF0ZXZlci53ZWIucnVuYm94Lm5ldCIsImlhdCI6MTU0NTY4MjAyNiwiZXhwIjoxNTQ1NzAwMDI2fQ.9-Rzvh4i4k9is5-lGwglIIFOAUI5u0bmEdzOPNWuQeo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"customerEmail\":\"ana.mattuzzi@me.com\",\n\t\"orderStatus\":\"new\",\n\t\"lineItems\":[{\n\t\t\"name\":\"O Bag\",\n\t\t\"refId\":\"740e450b-a2c4-4725-bad9-6c21552ffd81\",\n\t\t\"quantity\":\"2\",\n\t\t\"price\":\"13000\"\n\t\t},\n\t\t{\n\t\t\"name\":\"O Clock\",\n\t\t\"refId\":\"740e450b-a2c4-4725-bad9-6c21552ffd82\",\n\t\t\"quantity\":\"3\",\n\t\t\"price\":\"3000\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/rest/customers/740e450b-a2c4-4725-bad9-6c21552ffe00/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"customers",
+						"740e450b-a2c4-4725-bad9-6c21552ffe00",
+						"orders"
+					]
+				},
+				"description": "create order for ana.mattuzzi@me.com logged as ana.mattuzzi@gmail.com"
+			},
+			"response": []
+		}
+	]
+}
