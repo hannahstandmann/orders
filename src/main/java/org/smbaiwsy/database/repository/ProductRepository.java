@@ -20,10 +20,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	 * @return the product with the given reference id
 	 */
 	Optional<Product> findByRefId(String refId);
-	/**
-	 * finds product by it's name
-	 * @param name the name of the product
-	 * @return the product with the given name
-	 */
-	Optional<Product> findByName(String name);
 }

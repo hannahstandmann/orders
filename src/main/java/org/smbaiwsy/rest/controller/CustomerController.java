@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -123,9 +122,7 @@ public class CustomerController {
 			throw new BadRequestException("BAD_REQUEST", builder.toString());
 		}
 		log.info("orderService doesn't create order");
-		List<OrderRequest> createOrders = new ArrayList<>();
-		createOrders.add(orderRequest);
-		return orderService.createOrder(createOrders, customerRefId);
+		return orderService.createOrder(orderRequest, customerRefId);
 	}
 
 	/**

@@ -20,7 +20,8 @@ import org.smbaiwsy.rest.dto.OrderRequest;
 import org.smbaiwsy.rest.dto.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostFilter;
-import org.springframework.security.access.prepost.PreFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -127,20 +128,16 @@ public class OrderService {
 	}
 
 	/**
-	 * Creates the order from the first from the list of order requests assigned to the authenticated customer, identified by e-mail address
-	 * @param orders the list containing the order request TO 
+	 * Creates the order from the first from the order request assigned to the authenticated customer, identified by e-mail address
+	 * @param order the order request TO 
 	 * @param customerRefId the unique reference id of the customer
 	 * @return the order TO for the created order
 	 */
 	@Transactional
-	@PreFilter(filterTarget = "orders", value = "filterObject.customerEmail == authentication.name")
-	public OrderResponse createOrder(List<OrderRequest> orders, String customerRefId)
+	@PreAuthorize("hasPermission(#customerRefId, 'whatever')")
+	public OrderResponse createOrder(OrderRequest order, String customerRefId)
 			throws InsufficientPermissionsException {
-		if (orders.size() <= 0) {
-			throw new InsufficientPermissionsException("ACCESS_FORBIDDEN", "You have no right to create the resource");
-		}
 		Order created = new Order();
-		OrderRequest order = orders.get(0);
 		String refId = UUID.randomUUID().toString();
 		created.setRefId(refId);
 		created.setOrderStatusId(order.getOrderStatus());

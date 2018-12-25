@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -92,6 +93,19 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	public ErrorResponse handleInsufficientPermissionsException(InsufficientPermissionsException e) {
 		log.info("Not found exception. Error code: {} message: {}", e.getErrorCode(), e.getMessage());
 		return new ErrorResponse(e.getErrorCode(), e.getMessage());
+	}
+	
+	/**
+	 * Handle not found exception.
+	 * @param badRequestException the incoming exception
+	 * @return the error response
+	 */
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseBody
+	public ErrorResponse handleAccessDeniedException(AccessDeniedException accessDeniedException) {
+	    log.info("Not found exception. Error code: {} message: {}", 403, accessDeniedException.getMessage());
+	   	return new ErrorResponse( "FORBIDDEN", accessDeniedException.getMessage());
 	}
 
 	/**

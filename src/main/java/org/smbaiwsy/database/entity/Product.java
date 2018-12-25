@@ -31,4 +31,15 @@ public class Product {
 	private String name;
 	@Column(name = "price")
 	private BigDecimal price;
+	/**
+	 * overloaded constructor
+	 * @param refId the unique reference id
+	 * @param name the product name
+	 * @param price the price of a product
+	 */
+	public Product(String refId, String name, BigDecimal price) {
+		this.refId = refId;
+		this.name = name;
+		this.price = price;	
+	}
 }
