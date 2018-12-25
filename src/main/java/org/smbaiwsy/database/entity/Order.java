@@ -39,4 +39,12 @@ public class Order {
 	private String orderStatusId;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<OrderLine>  lineItems = new HashSet<OrderLine>();
+	/**
+	 * overloaded constructor
+	 */
+	public Order(String refId, Customer customer, String orderStatus) {
+		this.refId = refId;
+		this.customer = customer;
+		this.orderStatusId = orderStatus;		
+	}
 }

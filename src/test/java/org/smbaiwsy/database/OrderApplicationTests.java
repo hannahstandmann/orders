@@ -8,8 +8,10 @@ import java.util.UUID;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.smbaiwsy.database.entity.Customer;
+import org.smbaiwsy.database.entity.Order;
 import org.smbaiwsy.database.entity.Product;
 import org.smbaiwsy.database.repository.CustomerRepository;
+import org.smbaiwsy.database.repository.OrderRepository;
 import org.smbaiwsy.database.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -27,14 +29,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 @AutoConfigureTestDatabase(replace = Replace.ANY)
 public class OrderApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
 	@Autowired
     private CustomerRepository customers;
 	
 	@Autowired
     private ProductRepository products;
+	
+	@Autowired
+    private OrderRepository orders;
+	
+	@Test
+	public void contextLoads() {
+	}
 
     @Test
     public void testFindCustomerByEMail() {
@@ -67,5 +73,28 @@ public class OrderApplicationTests {
         assertThat(findByRefId).extracting(Product::getRefId).isEqualTo(product.getRefId());
     }
     
+    @Test
+    public void testFindOrderByReferenceId() {
+    	    Customer customer = new Customer(UUID.randomUUID().toString(),"ana.mattuzzi@me.com","Mihajla Pupina 103/3", "password");
+        customers.save(customer);
+        Order order = new Order(UUID.randomUUID().toString(), customer ,"new");
+        orders.save(order);
+
+        Order findByRefId = orders.findByRefId(order.getRefId()).get();
+
+        assertThat(findByRefId).extracting(Order::getRefId).isEqualTo(order.getRefId());
+    }
+    
+    @Test
+    public void testFindOrderByReferenceIdAndCustomerReferenceId() {
+    	    Customer customer = new Customer(UUID.randomUUID().toString(),"ana.mattuzzi@me.com","Mihajla Pupina 103/3", "password");
+        customers.save(customer);
+        Order order = new Order(UUID.randomUUID().toString(), customer ,"new");
+        orders.save(order);
+
+        Order findByRefId = orders.findByCustomerRefId(customer.getRefId(), order.getRefId()).get();
+
+        assertThat(findByRefId).extracting(Order::getRefId).isEqualTo(order.getRefId());
+    }
 }
 
