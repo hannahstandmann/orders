@@ -25,9 +25,9 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "customer_id")
 	private Integer id;
-	@Column(name = "ref_id")
+	@Column(name = "ref_id", unique= true)
 	private String refId;
-	@Column(name = "email")
+	@Column(name = "email", unique= true)
 	private String eMail;
 	@Column(name = "address")
 	private String address;
