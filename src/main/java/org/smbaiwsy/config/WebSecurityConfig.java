@@ -13,6 +13,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.session.MapSessionRepository;
+import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
+import org.springframework.session.web.http.HttpSessionIdResolver;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Resource;
 
@@ -24,6 +30,7 @@ import javax.annotation.Resource;
  */
 @Configuration
 @EnableWebSecurity
+@EnableSpringHttpSession
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -44,9 +51,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
 	}
 
-	@Bean
+	//@Bean
 	public JwtAuthenticationFilter authenticationFilterBean() throws Exception {
 		return new JwtAuthenticationFilter();
+	}
+	
+	@Bean
+	public SessionAuthenticationFilter sessionAuthenticationFilterBean() throws Exception {
+		return new SessionAuthenticationFilter();
 	}
 
 	@Override
@@ -54,12 +66,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/token/*").permitAll().anyRequest()
 				.authenticated().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.addFilterBefore(authenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(sessionAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Bean
 	public BCryptPasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public HttpSessionIdResolver httpSessionIdResolver() {
+		return HeaderHttpSessionIdResolver.xAuthToken(); 
+	}
+	
+	@Bean
+	public MapSessionRepository mapSessionRepository() {
+		return new MapSessionRepository(new ConcurrentHashMap<>());
 	}
 
 }

@@ -29,4 +29,8 @@ public interface AppConstants {
      * the name of the authorization header
      */
     String HEADER_STRING = "Authorization";
+    /**
+     * the name of the session header
+     */
+    String SESSION_STRING = "x-auth-token";
 }

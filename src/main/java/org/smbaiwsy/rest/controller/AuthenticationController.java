@@ -1,6 +1,10 @@
 package org.smbaiwsy.rest.controller;
 
-import org.smbaiwsy.config.TokenUtilities;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+//import org.smbaiwsy.config.TokenUtilities;
 import org.smbaiwsy.database.entity.Customer;
 import org.smbaiwsy.exception.NotFoundException;
 import org.smbaiwsy.rest.dto.AuthToken;
@@ -10,8 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.session.MapSessionRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +38,13 @@ public class AuthenticationController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+//	@Autowired
+//	private TokenUtilities jwtTokenUtil;
 	@Autowired
-	private TokenUtilities jwtTokenUtil;
+	private Map<String, String> sessionMapping;
+	
+	@Autowired
+	private MapSessionRepository sessionRepository;
 
 	@Autowired
 	private CustomerService userService;
@@ -44,15 +56,22 @@ public class AuthenticationController {
      * @throws NotFoundException
      */
 	@RequestMapping(value = "/generate-token", method = RequestMethod.POST)
-	public AuthToken register(@RequestBody LoginRequest loginRequest) throws AuthenticationException, NotFoundException {
+	public AuthToken register(HttpSession session, @RequestBody LoginRequest loginRequest) throws AuthenticationException, NotFoundException {
 
 		authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		final Customer customer = userService.findOne(loginRequest.getUsername());
 		log.info(customer.getEMail());
-		final String token = jwtTokenUtil.generateToken(customer);
+		final String token = session.getId();//jwtTokenUtil.generateToken(customer);
 		log.info(token);
+		sessionMapping.put(token, customer.getEMail());
 		return new AuthToken(customer.getEMail(), token);
+	}
+	
+	@PostMapping(value = "/logout")
+	public void logout(@RequestHeader("x-auth-token") String authToken) throws AuthenticationException, NotFoundException {
+		sessionMapping.remove(authToken);
+		sessionRepository.deleteById(authToken);
 	}
 
 }
